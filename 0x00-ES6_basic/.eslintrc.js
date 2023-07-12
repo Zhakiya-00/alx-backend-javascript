@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-
 module.exports = {
   env: {
     browser: false,
@@ -71,4 +69,3 @@ module.exports = {
       }
     ]
   };
->>>>>>> 5e3fa768932671b3c6b189c68870448eca1f5501
