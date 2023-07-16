@@ -23,15 +23,6 @@ async function handleProfileSignup(firstName, lastName, fileName) {
     promise2.status = 'fulfilled';
     promise2.value = upload;
   } catch (err) {
-     promise1.status = 'rejected';
-    promise1.value = err.toString();
-  }
-
-  try {
-    const upload = await uploadPhoto(fileName);
-    promise2.status = 'fulfilled';
-    promise2.value = upload;
-  } catch (err) {
     promise2.status = 'rejected';
     promise2.value = err.toString();
   }
