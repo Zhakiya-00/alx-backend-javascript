@@ -1,17 +1,37 @@
-const readDatabase = require('../utils');
+import readDatabase from '../utils';
 
 class StudentsController {
-  static getAllStudents(request, response) {
-    readDatabase(process.argv[2].toString()).then((students) => {
-      const output = [];
-      output.push('This is the list of our students');
-      const keys = Object.keys(students);
-      keys.sort();
-      for (let i = 0; i < keys.length; i += 1) {
-        output.push(`Number of students in ${keys[i]}: ${students[keys[i]].length}. List: ${students[keys[i]].join(', ')}`);
-      }
-      response.status(200).send(output.join('\n'));
-    }).catch(() => {
-      response.status(500).send('Cannot load the database');
-    });
+  static getAllStudents(request, response, DATABASE) {
+    readDatabase(DATABASE)
+      .then((fields) => {
+        const students = [];
+        let message;
+        students.push('This is the list of our students');
+        for (const key of Object.keys(fields)) {
+          message = `Number of students in ${key}: ${fields[key].length}. List: ${fields[key].join(', ')}`;
+          students.push(message);
+        }
+        response.send(200, `${students.join('\n')}`);
+      })
+      .catch(() => {
+        response.send(500, 'Cannot load the database');
+      });
   }
+
+  static getAllStudentsByMajor(request, response, DATABASE) {
+    const { major } = request.params;
+
+    if (major !== 'CS' && major !== 'SWE') {
+      response.send(500, 'Major parameter must be CS or SWE');
+    } else {
+      readDatabase(DATABASE)
+        .then((fields) => {
+          const students = fields[major];
+          response.send(200, `List: ${students.join(', ')}`);
+        })
+        .catch(() => response.send(500, 'Cannot load the database'));
+    }
+  }
+}
+
+export default StudentsController;
