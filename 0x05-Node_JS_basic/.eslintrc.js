@@ -33,5 +33,10 @@ module.exports = {
       files: ['*.js'],
       excludedFiles: 'babel.config.js',
     }
+    {
+      "files": ["tests/e2e/*.js"],
+      "plugins": [], // no plugins for e2e tests
+      // other settings for e2e tests
+    }	  
   ]
 };
